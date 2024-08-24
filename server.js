@@ -3,19 +3,11 @@ const sqlite3 = require('sqlite3').verbose();
 
 const express = require('express');
 const app = express();
-const port = 3000;
-
-const fiiData = {
-  BCF11: {
-    name: "BCF11 - Fundo Imobiliário",
-    value: "R$ 100,00",
-    lastYield: "R$ 0,75",
-  },
-};
+const port = 5050;
 
 function validateUserKey(req, res, next) {
-  const userKey = req.query.userKey;
-  const validUserKey = "secret-key-notrly";
+  const userKey = req.query.key;
+  const validUserKey = "Bruno.Baehr";
 
   if (userKey !== validUserKey) {
     return res.status(403).json({ error: "Invalid user key" });
@@ -39,11 +31,11 @@ app.get('/api/getFiiData/:id', validateUserKey, async (req, res) => {
           return res.status(404).json({ error: "FII not found" });
         }
   
-        res.status(200).json(row);
+        res.status(200).json(JSON.parse(row.data));
       });
   
       db.close();
-    } catch (error) {
+    } catch (error) { 
       res.status(500).json({ error: 'Error fetching data', details: error.message });
     }
   });
