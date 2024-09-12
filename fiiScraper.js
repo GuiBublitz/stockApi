@@ -19,6 +19,11 @@ function runQuery(sql, params = []) {
     });
 }
 
+function cleanKey(key, ticker) {
+    const regex = new RegExp('^' + ticker + '\\s+', 'i'); // Remove ticker followed by a space
+    return key.replace(regex, '').replace(/\s+/g, '_'); // Replace spaces with underscores
+}
+
 async function fetchFiiData(fiiTicker) {
     const url = `https://investidor10.com.br/fiis/${fiiTicker}/`;
 
@@ -28,13 +33,13 @@ async function fetchFiiData(fiiTicker) {
         const filteredData = { id: fiiTicker.toUpperCase() };
 
         $('#cards-ticker ._card').each(function() {
-            const title = $(this).find('._card-header span').text().trim();
+            const title = cleanKey($(this).find('._card-header span').text().trim(), fiiTicker);
             const value = $(this).find('._card-body span').text().trim();
             filteredData[title] = value;
         });
 
         $('#table-indicators:nth-of-type(1) .cell').each(function() {
-            const title = $(this).find('.name').text().trim();
+            const title = cleanKey($(this).find('.name').text().trim(), fiiTicker);
             const value = $(this).find('.value span').text().trim();
             filteredData[title] = value;
         });
