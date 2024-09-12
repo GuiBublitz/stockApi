@@ -8,6 +8,14 @@ const db = new sqlite3.Database('./fiiData.db', (err) => {
     }
 });
 
+function standardizeKey(key, fiiTicker) {
+    const tickerPrefix = `${fiiTicker} `;
+    if (key.startsWith(tickerPrefix)) {
+        return key.substring(tickerPrefix.length);
+    }
+    return key;
+}
+
 async function fetchFiiData(fiiTicker) {
     const url = `https://investidor10.com.br/fiis/${fiiTicker}/`;
 
@@ -19,13 +27,13 @@ async function fetchFiiData(fiiTicker) {
         $('#cards-ticker ._card').each(function() {
             const title = $(this).find('._card-header span').text().trim();
             const value = $(this).find('._card-body span').text().trim();
-            filteredData[title] = value;
+            filteredData[standardizeKey(title, fiiTicker)] = value;
         });
 
         $('#table-indicators:nth-of-type(1) .cell').each(function() {
             const title = $(this).find('.name').text().trim();
             const value = $(this).find('.value span').text().trim();
-            filteredData[title] = value;
+            filteredData[standardizeKey(title, fiiTicker)] = value;
         });
 
         filteredData.tipo      = $('#table-dividends-history tbody > tr:nth-of-type(1) td:nth-of-type(1)').text().trim();
