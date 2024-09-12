@@ -6,8 +6,8 @@ const app = express();
 const port = 5050;
 
 function validateUserKey(req, res, next) {
-  const userKey = req.query.userKey;
-  const validUserKey = "secret-key-notrly";
+  const userKey = req.query.key;
+  const validUserKey = "Bruno.Baehr";
 
   if (userKey !== validUserKey) {
     return res.status(403).json({ error: "Invalid user key" });
@@ -30,12 +30,17 @@ app.get('/api/getFiiData/:id', validateUserKey, async (req, res) => {
         if (!row) {
           return res.status(404).json({ error: "FII not found" });
         }
+<<<<<<< HEAD
 
         res.status(200).json(row);
+=======
+  
+        res.status(200).json(JSON.parse(row.data));
+>>>>>>> 23322475c8a5ebb043fe1bbb28434dc921308113
       });
 
       db.close();
-    } catch (error) {
+    } catch (error) { 
       res.status(500).json({ error: 'Error fetching data', details: error.message });
     }
   });
