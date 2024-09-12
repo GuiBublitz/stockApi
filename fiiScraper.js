@@ -8,6 +8,14 @@ const db = new sqlite3.Database('./fiiData.db', (err) => {
     }
 });
 
+function standardizeKey(key, fiiTicker) {
+    const tickerPrefix = `${fiiTicker} `;
+    if (key.startsWith(tickerPrefix)) {
+        return key.substring(tickerPrefix.length);
+    }
+    return key;
+}
+
 async function fetchFiiData(fiiTicker) {
     const url = `https://investidor10.com.br/fiis/${fiiTicker}/`;
 
@@ -19,13 +27,13 @@ async function fetchFiiData(fiiTicker) {
         $('#cards-ticker ._card').each(function() {
             const title = $(this).find('._card-header span').text().trim();
             const value = $(this).find('._card-body span').text().trim();
-            filteredData[title] = value;
+            filteredData[standardizeKey(title, fiiTicker)] = value;
         });
 
         $('#table-indicators:nth-of-type(1) .cell').each(function() {
             const title = $(this).find('.name').text().trim();
             const value = $(this).find('.value span').text().trim();
-            filteredData[title] = value;
+            filteredData[standardizeKey(title, fiiTicker)] = value;
         });
 
         filteredData.tipo      = $('#table-dividends-history tbody > tr:nth-of-type(1) td:nth-of-type(1)').text().trim();
@@ -33,33 +41,19 @@ async function fetchFiiData(fiiTicker) {
         filteredData.pagamento = $('#table-dividends-history tbody > tr:nth-of-type(1) td:nth-of-type(3)').text().trim();
         filteredData.valor     = $('#table-dividends-history tbody > tr:nth-of-type(1) td:nth-of-type(4)').text().trim();
 
-        const dynamicColumns = Object.keys(filteredData).filter(key => key !== 'id').map(key => `${key.replace(/[^a-zA-Z0-9_]/g, '_')} TEXT`).join(', ');
-        const createTableSql = `CREATE TABLE IF NOT EXISTS fii_data (id TEXT PRIMARY KEY, ${dynamicColumns})`;
+        const jsonData = JSON.stringify(filteredData);
 
-        db.run(createTableSql, (err) => {
-            if (err) {
-                console.error('Error creating table:', err.message);
-            } else {
-                console.log('Table created or already exists.');
+        const createTableSql = `CREATE TABLE IF NOT EXISTS fii_data (id TEXT PRIMARY KEY, data TEXT)`;
+        await runQuery(createTableSql);
 
-                const placeholders = Object.keys(filteredData).map(() => '?').join(', ');
-                const insertSql = `INSERT OR REPLACE INTO fii_data (${Object.keys(filteredData).map(key => key.replace(/[^a-zA-Z0-9_]/g, '_')).join(', ')}) VALUES (${placeholders})`;
+        console.log('Table created or already exists.');
 
-                db.run(insertSql, Object.values(filteredData), function(err) {
-                    if (err) {
-                        console.error('Error inserting data:', err.message);
-                    } else {
-                        console.log('Data inserted or replaced successfully');
-                    }
-                });
-            }
-        });
+        const insertSql = `INSERT OR REPLACE INTO fii_data (id, data) VALUES (?, ?)`;
+        await runQuery(insertSql, [fiiTicker.toUpperCase(), jsonData]);
 
-        for (const key in filteredData) {
-            if (filteredData.hasOwnProperty(key)) {
-                console.log(`${key}: ${filteredData[key]}`);
-            }
-        }
+        console.log('Data inserted or replaced successfully');
+
+        console.log(jsonData);
 
     } catch (error) {
         console.error('Error fetching data:', error);
