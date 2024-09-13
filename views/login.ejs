@@ -1,19 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-</head>
-<body>
-  <h1>Login</h1>
-  <form method="POST" action="/login">
-    <label for="username">Username:</label>
-    <input type="text" name="username" required />
-    <label for="password">Password:</label>
-    <input type="password" name="password" required />
-    <button type="submit">Login</button>
-  </form>
-  <a href="/register">Register here</a>
-</body>
-</html>
+<section class="signin-area signin-one">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5">
+        <form method="POST" action="/login">
+          <div class="signin-form form-style-two rounded-buttons">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-input">
+                  <label>Username account</label>
+                  <div class="input-items default">
+                    <input type="text" name="username" placeholder="Username" required />
+                    <i class="lni lni-envelope"></i>
+                  </div>
+                </div>
+                <!-- form input -->
+              </div>
+              <div class="col-md-12">
+                <div class="form-input">
+                  <label>Password account</label>
+                  <div class="input-items default">
+                    <input type="password" name="password" placeholder="Password" required />
+                    <i class="lni lni-key"></i>
+                  </div>
+                </div>
+                <!-- form input -->
+              </div>
+              <div class="col-md-6">
+                <div class="form-input rounded-buttons">
+                  <button class="btn primary-btn rounded-full" type="submit">
+                    Sign In!
+                  </button>
+                </div>
+                <!-- form input -->
+              </div>
+              <div class="col-md-6">
+                <div class="form-input rounded-buttons">
+                  <a href="/register" class="btn primary-btn-outline rounded-full">
+                    Sign Up
+                  </a>
+                </div>
+                <!-- form input -->
+              </div>
+              <div class="col-md-12">
+                <div class="form-input text-center">
+                  <p class="text">
+                    By signing in you agree with the
+                    <a href="javascript:void(0)">Terms and Conditions</a> and
+                    <a href="javascript:void(0)">Privacy</a>
+                  </p>
+                </div>
+                <!-- form input -->
+              </div>
+            </div>
+          </div>
+          <!-- signin form -->
+        </form>
+      </div>
+    </div>
+    <!-- row -->
+  </div>
+  <!-- container -->
+</section>
+<!--====== SIGNIN ONE PART ENDS ======-->

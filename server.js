@@ -1,9 +1,11 @@
 require('dotenv').config();
 
-const express    = require('express');
-const session    = require('express-session');
-const bodyParser = require('body-parser');
-const bcrypt     = require('bcrypt');
+const express        = require('express');
+const expressLayouts = require('express-ejs-layouts');
+const session        = require('express-session');
+const bodyParser     = require('body-parser');
+const bcrypt         = require('bcrypt');
+const path           = require('path');
 
 const { addUser, getUserByUsername, closeDatabase } = require('./database/database');
 const { validateUserKey, validateLogin } = require('./middleware');
@@ -13,7 +15,11 @@ const app = express();
 const port = 5050;
 
 app.set('view engine', 'ejs');
-app.set('views', './views');
+app.set('views', path.join(__dirname, 'views'));
+app.use(expressLayouts); 
+app.set('layout', 'layout'); 
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
@@ -25,7 +31,7 @@ app.use(session({
 }));
 
 app.get('/login', (req, res) => {
-  res.render('login');
+  res.render('login', { title: 'Login', showNav: false });
 });
 
 app.post('/login', (req, res) => {
@@ -48,7 +54,7 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-  res.render('register');
+  res.render('register', { title: 'Register', showNav: false });
 });
 
 app.post('/register', (req, res) => {
@@ -73,7 +79,7 @@ app.post('/register', (req, res) => {
 });
 
 app.get('/', validateLogin, (req, res) => {
-  res.render('home', { userId: req.session.userId });
+  res.render('home', { title: 'Home', userId: req.session.userId, showNav: true });
 });
 
 app.get('/logout', (req, res) => {

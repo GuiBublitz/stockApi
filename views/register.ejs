@@ -1,19 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
-</head>
-<body>
-  <h1>Register</h1>
-  <form method="POST" action="/register">
-    <label for="username">Username:</label>
-    <input type="text" name="username" required />
-    <label for="password">Password:</label>
-    <input type="password" name="password" required />
-    <button type="submit">Register</button>
-  </form>
-  <a href="/login">Login here</a>
-</body>
-</html>
+<link rel="stylesheet" href="../assets/scss/contact/contact-01.css" />
+
+<!--====== REGISTER FORM PART START ======-->
+<section class="contact-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-7 col-lg-8">
+        <div class="section-title mt-45">
+          <h3 class="title">Register your account</h3>
+        </div>
+        <div class="contact-form form-style-four mt-15">
+          <form method="POST" action="/register"> <!-- Updated form action to register -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-input mt-15">
+                  <label>Username</label>
+                  <div class="input-items default">
+                    <i class="lni lni-user"></i>
+                    <input type="text" name="username" placeholder="John Doe" required />
+                  </div>
+                </div>
+                <!-- form input -->
+              </div>
+              <div class="col-md-12">
+                <div class="form-input mt-15">
+                  <label>Password</label>
+                  <div class="input-items default">
+                    <i class="lni lni-key"></i>
+                    <input type="password" name="password" placeholder="********" required />
+                  </div>
+                </div>
+                <!-- form input -->
+              </div>
+              <div class="col-md-12">
+                <div class="single-form mt-15">
+                  <div class="input-form rounded-buttons">
+                    <button class="btn primary-btn rounded-full" type="submit">
+                      Register
+                    </button>
+                  </div>
+                </div>
+                <!-- single form -->
+              </div>
+              <div class="col-md-12">
+                <div class="form-input text-center mt-15">
+                  <p class="text">
+                    Already have an account?
+                    <a href="/login">Login here</a>
+                  </p>
+                </div>
+                <!-- form input -->
+              </div>
+            </div>
+            <!-- row -->
+          </form>
+        </div>
+        <!-- contact form -->
+      </div>
+   
+    </div>
+    <!-- row -->
+  </div>
+  <!-- container -->
+</section>
+<!--====== REGISTER FORM PART ENDS ======-->
