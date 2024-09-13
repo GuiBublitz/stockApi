@@ -43,7 +43,7 @@ app.post('/login', (req, res) => {
 
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
-        req.session.userId = user.id;
+        req.session.userId  = user.id;
         req.session.isAdmin = user.isAdmin;
         return res.redirect('/');
       } else {
@@ -58,14 +58,14 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, name, email } = req.body;
 
   bcrypt.hash(password, 10, (err, hashedPassword) => {
     if (err) {
       return res.status(500).send('Internal server error');
     }
 
-    addUser(username, hashedPassword, (err, userId) => {
+    addUser(username, name, email, hashedPassword, (err, userId) => {
       if (err) {
         if (err.code === 'SQLITE_CONSTRAINT') {
           return res.status(400).send('Username already exists');

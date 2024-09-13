@@ -22,34 +22,33 @@ function dbsetup() {
           return;
         }
 
-        const hasIsAdmin = columns.some(column => column.name === 'isAdmin');
-        if (!hasIsAdmin) {
-          db.run(`ALTER TABLE users ADD COLUMN isAdmin INTEGER DEFAULT 0`, (err) => {
-            if (err) {
-              console.error('Error adding isAdmin column:', err.message);
-            } else {
-              console.log('isAdmin column added to users table.');
-            }
-
-            db.close((err) => {
+        const addColumnIfNotExists = (columnName, columnType, defaultValue) => {
+          const columnExists = columns.some(column => column.name === columnName);
+          if (!columnExists) {
+            const addColumnQuery = `ALTER TABLE users ADD COLUMN ${columnName} ${columnType}${defaultValue ? ' DEFAULT ' + defaultValue : ''}`;
+            db.run(addColumnQuery, (err) => {
               if (err) {
-                console.error('Error closing the database:', err.message);
+                console.error(`Error adding ${columnName} column:`, err.message);
               } else {
-                console.log('Database setup complete and connection closed.');
+                console.log(`${columnName} column added to users table.`);
               }
             });
-          });
-        } else {
-          console.log('isAdmin column already exists.');
+          } else {
+            console.log(`${columnName} column already exists.`);
+          }
+        };
 
-          db.close((err) => {
-            if (err) {
-              console.error('Error closing the database:', err.message);
-            } else {
-              console.log('Database setup complete and connection closed.');
-            }
-          });
-        }
+        addColumnIfNotExists('isAdmin', 'INTEGER', 0);
+        addColumnIfNotExists('email', 'TEXT', null);
+        addColumnIfNotExists('name', 'TEXT', null);
+
+        db.close((err) => {
+          if (err) {
+            console.error('Error closing the database:', err.message);
+          } else {
+            console.log('Database setup complete and connection closed.');
+          }
+        });
       });
     });
   });

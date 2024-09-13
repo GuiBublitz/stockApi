@@ -15,9 +15,9 @@ function getAllUsers(callback) {
   });
 }
 
-function addUser(username, hashedPassword, callback) {
-  const query = `INSERT INTO users (username, password) VALUES (?, ?)`;
-  db.run(query, [username, hashedPassword], function (err) {
+function addUser(username, name, email, hashedPassword, callback) {
+  const query = `INSERT INTO users (username, password, name, email) VALUES (?, ?, ?, ?)`;
+  db.run(query, [username, hashedPassword, name, email], function (err) {
     if (err) {
       console.error('Error inserting user:', err.message);
       callback(err, null);

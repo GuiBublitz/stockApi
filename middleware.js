@@ -17,7 +17,6 @@ function validateLogin(req, res, next) {
 }
 
 function checkAdmin(req, res, next) {
-  console.log(req.session);
     if (req.session.userId && req.session.isAdmin) {
       return next();
     } else {
