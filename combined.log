@@ -1,0 +1,55 @@
+2024-09-13T17:42:40.613Z info: Server running at http://localhost:5050
+2024-09-13T17:42:41.399Z info: GET /login
+2024-09-13T17:42:47.233Z info: POST /login
+2024-09-13T17:42:47.320Z info: User gbublitz logged in successfully
+2024-09-13T17:42:47.328Z info: GET /
+2024-09-13T17:44:06.155Z info: Server running at http://localhost:5050
+2024-09-13T17:44:52.222Z info: Server running at http://localhost:5050
+2024-09-13T17:44:57.663Z info: Server running at http://localhost:5050
+2024-09-13T17:44:59.007Z info: [User: Guest] GET /
+2024-09-13T17:44:59.019Z info: [User: Guest] GET /login
+2024-09-13T17:45:05.615Z info: [User: Guest] POST /login
+2024-09-13T17:45:05.618Z error: [User: Guest] Invalid login attempt for username: gbublitz123
+2024-09-13T17:45:08.213Z info: [User: Guest] GET /register
+2024-09-13T17:45:22.827Z info: [User: Guest] POST /register
+2024-09-13T17:45:22.985Z info: [User: guilherme.bublitz] New user registered: guilherme.bublitz
+2024-09-13T17:45:22.991Z info: [User: Guest] GET /login
+2024-09-13T17:45:28.602Z info: [User: Guest] POST /login
+2024-09-13T17:45:28.690Z info: [User: guilherme.bublitz] User guilherme.bublitz logged in successfully
+2024-09-13T17:45:28.695Z info: [User: UserId: 5] GET /
+2024-09-13T17:45:34.709Z info: [User: UserId: 5] GET /admin/users
+2024-09-13T17:45:49.690Z info: [User: UserId: 5] GET /
+2024-09-13T17:45:50.447Z info: [User: UserId: 5] GET /
+2024-09-13T17:46:47.056Z info: Server running at http://localhost:5050
+2024-09-13T17:47:01.992Z info: Server running at http://localhost:5050
+2024-09-13T17:47:31.339Z info: Server running at http://localhost:5050
+2024-09-13T17:47:32.694Z info: Server running at http://localhost:5050
+2024-09-13T17:48:27.924Z info: Server running at http://localhost:5050
+2024-09-13T17:48:41.413Z info: Server running at http://localhost:5050
+2024-09-13T17:49:11.924Z info: Server running at http://localhost:5050
+2024-09-13T17:49:25.569Z info: Server running at http://localhost:5050
+2024-09-13T17:50:06.837Z info: Server running at http://localhost:5050
+2024-09-13T17:50:08.446Z info: [User: Guest] GET /
+2024-09-13T17:50:08.462Z info: [User: Guest] GET /login
+2024-09-13T17:50:13.338Z info: [User: Guest] GET /login
+2024-09-13T17:50:13.712Z info: [User: Guest] GET /login
+2024-09-13T17:50:20.063Z info: [User: Guest] POST /login
+2024-09-13T17:50:20.151Z info: [User: gbublitz] User gbublitz logged in successfully
+2024-09-13T17:50:20.156Z info: [User: Username: gbublitz] GET /
+2024-09-13T17:50:36.573Z info: [User: Username: gbublitz] GET /
+2024-09-13T17:50:37.673Z info: [User: Username: gbublitz] GET /
+2024-09-13T17:50:39.501Z info: [User: Username: gbublitz] GET /admin/users
+2024-09-13T17:51:23.971Z info: Server running at http://localhost:5050
+2024-09-13T17:51:25.264Z info: [User: Guest] GET /
+2024-09-13T17:51:25.274Z info: [User: Guest] GET /login
+2024-09-13T17:51:26.285Z info: [User: Guest] GET /login
+2024-09-13T17:51:34.977Z info: [User: Guest] POST /login
+2024-09-13T17:51:35.063Z info: [User: gbublitz] User gbublitz logged in successfully
+2024-09-13T17:51:35.068Z info: [User: gbublitz] GET /
+2024-09-13T17:51:41.384Z info: [User: gbublitz] GET /
+2024-09-13T17:51:41.985Z info: [User: gbublitz] GET /
+2024-09-13T17:51:42.904Z info: [User: gbublitz] GET /
+2024-09-13T17:51:43.821Z info: [User: gbublitz] GET /admin/users
+2024-09-13T17:51:49.417Z info: [User: gbublitz] GET /
+2024-09-13T17:51:51.328Z info: [User: gbublitz] GET /
+2024-09-13T17:51:53.758Z info: Database connection closed and server terminated
