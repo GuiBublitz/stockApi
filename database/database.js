@@ -5,6 +5,16 @@ dbsetup();
 
 const db = new sqlite3.Database('./database.db');
 
+function getAllUsers(callback) {
+  const query = `SELECT id, username, isAdmin FROM users`;
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      return callback(err, null);
+    }
+    return callback(null, rows);
+  });
+}
+
 function addUser(username, hashedPassword, callback) {
   const query = `INSERT INTO users (username, password) VALUES (?, ?)`;
   db.run(query, [username, hashedPassword], function (err) {
@@ -44,4 +54,5 @@ module.exports = {
   addUser,
   getUserByUsername,
   closeDatabase,
+  getAllUsers,
 };

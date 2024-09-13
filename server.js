@@ -7,8 +7,8 @@ const bodyParser     = require('body-parser');
 const bcrypt         = require('bcrypt');
 const path           = require('path');
 
-const { addUser, getUserByUsername, closeDatabase } = require('./database/database');
-const { validateUserKey, validateLogin } = require('./middleware');
+const { addUser, getUserByUsername, closeDatabase, getAllUsers } = require('./database/database');
+const { validateUserKey, validateLogin, checkAdmin } = require('./middleware');
 const { getFiiData } = require('./fiiScraper/fiiController');
 
 const app = express();
@@ -27,7 +27,6 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: { secure: process.env.HTTPS_ONLY === 'true' }
-
 }));
 
 app.get('/login', (req, res) => {
@@ -45,6 +44,7 @@ app.post('/login', (req, res) => {
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
         req.session.userId = user.id;
+        req.session.isAdmin = user.isAdmin;
         return res.redirect('/');
       } else {
         return res.status(400).send('Invalid username or password');
@@ -80,6 +80,16 @@ app.post('/register', (req, res) => {
 
 app.get('/', validateLogin, (req, res) => {
   res.render('home', { title: 'Home', userId: req.session.userId, showNav: true });
+});
+
+app.get('/admin/users', validateLogin, checkAdmin, (req, res) => {
+  getAllUsers((err, users) => {
+    if (err) {
+      return res.status(500).send('Error fetching users');
+    }
+    
+    res.render('admin', { title: 'Admin - User List', users, showNav: true });
+  });
 });
 
 app.get('/logout', (req, res) => {

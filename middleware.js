@@ -16,4 +16,13 @@ function validateLogin(req, res, next) {
     }
 }
 
-module.exports = { validateUserKey, validateLogin };
+function checkAdmin(req, res, next) {
+  console.log(req.session);
+    if (req.session.userId && req.session.isAdmin) {
+      return next();
+    } else {
+      return res.status(403).send('Access denied: Admins only');
+    }
+  }
+
+module.exports = { validateUserKey, validateLogin, checkAdmin };
