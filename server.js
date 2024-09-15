@@ -6,13 +6,35 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const logger = require('./logger');
+const http = require('http');
+const socketIo = require('socket.io');
+
+const socketHandler = require('./socketHandler');
 
 const { addUser, getUserByUsername, closeDatabase, getAllUsers } = require('./database/database');
 const { validateUserKey, validateLogin, checkAdmin } = require('./middleware');
 const { getFiiData } = require('./fiiScraper/fiiController');
 
 const app = express();
-const port = 5050;
+const server = http.createServer(app);
+const io = socketIo(server);
+
+logger.setIo(io);
+
+const sessionMiddleware = session({
+  secret: process.env.SECRETE_KEY,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: process.env.HTTPS_ONLY === 'true' }
+});
+
+app.use(sessionMiddleware);
+
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, {}, next);
+});
+
+socketHandler(io);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -20,15 +42,7 @@ app.use(expressLayouts);
 app.set('layout', 'layout'); 
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(session({
-  secret: process.env.SECRETE_KEY,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: process.env.HTTPS_ONLY === 'true' }
-}));
 
 app.use((req, res, next) => {
   const username = req.session.userId ? `${req.session.username}` : 'Guest';
@@ -124,12 +138,10 @@ app.get('/logout', (req, res) => {
 
 app.get('/api/getFiiData/:id', validateUserKey, getFiiData);
 
-// Start the server
-app.listen(port, () => {
-  logger.info(`Server running at http://localhost:${port}`);
+server.listen(5050, () => {
+  logger.info(`Server running at http://localhost:5050`);
 });
 
-// Close the database connection on exit
 process.on('SIGINT', () => {
   closeDatabase();
   logger.info('Database connection closed and server terminated');

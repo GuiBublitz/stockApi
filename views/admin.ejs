@@ -1,21 +1,92 @@
 <div class="container mt-5">
-<h1>User List</h1>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Admin Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% users.forEach(user => { %>
-        <tr>
-        <td><%= user.id %></td>
-        <td><%= user.username %></td>
-        <td><%= user.isAdmin ? 'Yes' : 'No' %></td>
-        </tr>
-    <% }) %>
-    </tbody>
-</table>
+    <h1>User List</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Admin Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user=> { %>
+                <tr>
+                    <td>
+                        <%= user.id %>
+                    </td>
+                    <td>
+                        <%= user.username %>
+                    </td>
+                    <td>
+                        <%= user.isAdmin ? 'Yes' : 'No' %>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #logs {
+            width: 80%;
+            height: 400px;
+            overflow-y: scroll;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        #message {
+            width: 80%;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+    </style>
+    <h1>Socket.IO Logs Viewer</h1>
+    <div id="logs"></div>
+
+    <input type="text" id="message" placeholder="Enter your message" />
+    <button id="sendMessage">Send Message</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const socket = io();
+
+            const logsContainer = document.getElementById('logs');
+
+            function addLog(log) {
+                const logEntry = document.createElement('div');
+                logEntry.textContent = log;
+                logsContainer.appendChild(logEntry);
+
+                logsContainer.scrollTop = logsContainer.scrollHeight;
+            }
+
+            socket.on('logs', (logs) => {
+                logs.forEach(log => addLog(log));
+            });
+
+            socket.on('chatMessage', (data) => {
+                addLog(`${data.user}: ${data.message}`);
+            });
+
+            document.getElementById('sendMessage').addEventListener('click', () => {
+                const message = document.getElementById('message').value;
+                socket.emit('chatMessage', message);
+                document.getElementById('message').value = '';
+            });
+        });
+    </script>
+
 </div>
