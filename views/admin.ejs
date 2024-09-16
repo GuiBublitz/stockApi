@@ -1,92 +1,64 @@
-<div class="container mt-5">
-    <h1>User List</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Admin Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% users.forEach(user=> { %>
-                <tr>
-                    <td>
-                        <%= user.id %>
-                    </td>
-                    <td>
-                        <%= user.username %>
-                    </td>
-                    <td>
-                        <%= user.isAdmin ? 'Yes' : 'No' %>
-                    </td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/main/admin/admin.js"></script>
+<link rel="stylesheet" href="/main/admin/admin.css">
 
-    <script src="/socket.io/socket.io.js"></script>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        #logs {
-            width: 80%;
-            height: 400px;
-            overflow-y: scroll;
-            background-color: #f0f0f0;
-            padding: 10px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-        }
-
-        #message {
-            width: 80%;
-            padding: 5px;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 5px 10px;
-            font-size: 16px;
-        }
-    </style>
-    <h1>Socket.IO Logs Viewer</h1>
-    <div id="logs"></div>
-
-    <input type="text" id="message" placeholder="Enter your message" />
-    <button id="sendMessage">Send Message</button>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const socket = io();
-
-            const logsContainer = document.getElementById('logs');
-
-            function addLog(log) {
-                const logEntry = document.createElement('div');
-                logEntry.textContent = log;
-                logsContainer.appendChild(logEntry);
-
-                logsContainer.scrollTop = logsContainer.scrollHeight;
-            }
-
-            socket.on('logs', (logs) => {
-                logs.forEach(log => addLog(log));
-            });
-
-            socket.on('chatMessage', (data) => {
-                addLog(`${data.user}: ${data.message}`);
-            });
-
-            document.getElementById('sendMessage').addEventListener('click', () => {
-                const message = document.getElementById('message').value;
-                socket.emit('chatMessage', message);
-                document.getElementById('message').value = '';
-            });
-        });
-    </script>
-
+<div class="container mt-2 mw-100">
+    <div class="tabs">
+        <div class="single-tabs tabs-six">
+            <div class="row no-gutters">
+                <div class="col-sm-4 left-side-menu">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="active" id="v-pills-six-one-tab" data-bs-toggle="pill" href="#v-pills-six-one"
+                            role="tab" aria-controls="v-pills-six-one" aria-selected="true">
+                            <i class="lni lni-users"></i> Usuários
+                        </a>
+                        <a id="v-pills-six-two-tab" data-bs-toggle="pill" href="#v-pills-six-two" role="tab"
+                            aria-controls="v-pills-six-two" aria-selected="false">
+                            <i class="lni lni-files"></i> Logs
+                        </a>
+                    </div>
+                    
+                </div>
+                <div class="col-sm-8 right-side-menu">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-six-one" role="tabpanel"
+                            aria-labelledby="v-pills-six-one-tab">
+                            <div class="table-container">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Username</th>
+                                            <th>Admin Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% users.forEach(user=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= user.id %>
+                                                </td>
+                                                <td>
+                                                    <%= user.username %>
+                                                </td>
+                                                <td>
+                                                    <%= user.isAdmin ? 'Yes' : 'No' %>
+                                                </td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-six-two" role="tabpanel"
+                            aria-labelledby="v-pills-six-two-tab">
+                            <div id="logs"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
+        </div>
+        <!-- tabs six -->
+    </div>
 </div>
