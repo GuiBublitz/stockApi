@@ -24,6 +24,7 @@ module.exports = (io) => {
             next(new Error('Unauthorized'));
         }
     });
+
     io.on('connection', async (socket) => {
         console.log('A new user connected');
 
@@ -31,8 +32,15 @@ module.exports = (io) => {
         if (session && session.username) {
             console.log(`User connected with session: ${session.username}`);
 
-            const logs = await getLastNLines(1000, path.join(__dirname, 'combined.log'));
-            socket.emit('logs', logs);
+            socket.on('requestInitialLogs', async (callback) => {
+                try {
+                    const logs = await getLastNLines(1000, path.join(__dirname, 'combined.log'));
+                    callback(logs);
+                } catch (err) {
+                    console.error('Error fetching logs:', err);
+                    callback([]);
+                }
+            });
 
             socket.on('chatMessage', (msg) => {
                 console.log(`Message from ${session.username}: ${msg}`);

@@ -7,52 +7,59 @@
         <div class="single-tabs tabs-six">
             <div class="row no-gutters">
                 <div class="col-sm-4 left-side-menu">
+                    
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <a class="active" id="v-pills-six-one-tab" data-bs-toggle="pill" href="#v-pills-six-one"
-                            role="tab" aria-controls="v-pills-six-one" aria-selected="true">
+                        <p class="p-2 text-center">Admin Tools</p>
+                        <hr class="m-0">
+                        <a class="active" id="v-pills-six-user-tab" data-bs-toggle="pill" href="#v-pills-six-user"
+                            role="tab" aria-controls="v-pills-six-user" aria-selected="true">
                             <i class="lni lni-users"></i> Usuários
                         </a>
-                        <a id="v-pills-six-two-tab" data-bs-toggle="pill" href="#v-pills-six-two" role="tab"
-                            aria-controls="v-pills-six-two" aria-selected="false">
-                            <i class="lni lni-files"></i> Logs
+                        <a id="v-pills-six-logs-tab" data-bs-toggle="pill" href="#v-pills-six-logs" role="tab"
+                            aria-controls="v-pills-six-logs" aria-selected="false">
+                            <i class="lni lni-files"></i> System Logs
                         </a>
                     </div>
                     
                 </div>
                 <div class="col-sm-8 right-side-menu">
                     <div class="tab-content" id="v-pills-tabContent">
-                        <div class="tab-pane fade show active" id="v-pills-six-one" role="tabpanel"
-                            aria-labelledby="v-pills-six-one-tab">
-                            <div class="table-container">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Username</th>
-                                            <th>Admin Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% users.forEach(user=> { %>
+                        <div class="tab-pane fade show active" id="v-pills-six-user" role="tabpanel"
+                            aria-labelledby="v-pills-six-user-tab">
+                            <div class="tab-content-container">
+                                <div class="table-container">
+                                    <table class="table table-striped">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    <%= user.id %>
-                                                </td>
-                                                <td>
-                                                    <%= user.username %>
-                                                </td>
-                                                <td>
-                                                    <%= user.isAdmin ? 'Yes' : 'No' %>
-                                                </td>
+                                                <th>ID</th>
+                                                <th>Username</th>
+                                                <th>Admin Status</th>
                                             </tr>
-                                        <% }) %>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            <% users.forEach(user=> { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= user.id %>
+                                                    </td>
+                                                    <td>
+                                                        <%= user.username %>
+                                                    </td>
+                                                    <td>
+                                                        <%= user.isAdmin ? 'Yes' : 'No' %>
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-six-two" role="tabpanel"
-                            aria-labelledby="v-pills-six-two-tab">
-                            <div id="logs"></div>
+                        <div class="tab-pane fade" id="v-pills-six-logs" role="tabpanel"
+                            aria-labelledby="v-pills-six-logs-tab">
+                            <div class="tab-content-container">
+                                <div id="logs"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
