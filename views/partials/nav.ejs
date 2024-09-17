@@ -1,59 +1,38 @@
 <link rel="stylesheet" href="../assets/scss/navbars/navbar-09.css" />
+<style>
+    .navbar-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-<div class="modal fade" id="adicionarAtivoModal" tabindex="-1" aria-labelledby="adicionarAtivoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="adicionarAtivoModalLabel">Adicionar Transação</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Tipo de Ativo:</label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected value="0">Escolha um Ativo</option>
-                            
-                            <%  if (typeof ativos !== 'undefined') { 
-                                    ativos.forEach(ativo => { 
-                                        %> <option value="<%= ativo.id %>"><%= ativo.name %></option> <%  
-                                    })
-                                } %>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-light btn-cancel p-2" data-bs-dismiss="modal">
-                    Fechar
-                </button>
-                <button type="button" class="btn btn-dark btn-confirm p-2">Salvar</button>
-            </div>
-        </div>
-    </div>
-</div>
+.sidebar-left {
+    display: block; /* Garante que a barra lateral seja exibida corretamente */
+}
+
+.overlay-left {
+    display: none; /* Oculta o overlay inicialmente */
+}
+
+.sidebar-left.open,
+.overlay-left.open {
+    display: block; /* Exibe a barra lateral e overlay quando abertos */
+}
+
+</style>
 
 <section class="navbar-area navbar-nine bg-dark p-1">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
+                <!-- Remover o botão navbar-toggler e as classes relacionadas a colapso -->
                 <nav class="navbar navbar-expand-lg">
                     <span class="me-auto">
                         <%- include('logo', {customClass: 'text-white' }) %>
                     </span>
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNine"
-                        aria-controls="navbarNine" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="toggler-icon"></span>
-                        <span class="toggler-icon"></span>
-                        <span class="toggler-icon"></span>
-                    </button>
-
-                    <% if (title==='Home') {%>
+                    <!-- Adicionar Ativo, exibido apenas na página Home -->
+                    <% if (title === 'Home') { %>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#adicionarAtivoModal"
                             data-bs-whatever="@getbootstrap" id="adicionar-ativo-btn" style="font-size: 14px"
                             class="btn btn-outline-light me-5 p-2 d-flex justify-content-center align-items-center gap-2">
@@ -62,7 +41,8 @@
                         </button>
                     <% } %>
 
-                    <div class="navbar-btn d-none d-lg-inline-block">
+                    <!-- Menu lateral esquerdo -->
+                    <div class="navbar-btn d-lg-inline-block">
                         <a class="menu-bar" href="#side-menu-left"><i class="lni lni-menu"></i></a>
                     </div>
                 </nav>
@@ -71,6 +51,7 @@
     </div>
 </section>
 
+<!-- Sidebar Menu -->
 <div class="sidebar-left pt-4">
     <div class="sidebar-close">
         <a class="close" href="#close"><i class="lni lni-close"></i></a>
@@ -79,7 +60,7 @@
         <div class="sidebar-logo">
             <%- include('logo', {customClass: "text-dark" }) %>
         </div>
-        <!-- logo -->
+        <!-- Sidebar links -->
         <div class="sidebar-menu">
             <ul>
                 <li class="nav-item">
@@ -98,16 +79,8 @@
 </div>
 <div class="overlay-left"></div>
 
-<script src="../assets/js/bootstrap.bundle.min.js"></script>
-
 <script>
-    let navbarTogglerNine = document.querySelector(
-        ".navbar-nine .navbar-toggler"
-    );
-    navbarTogglerNine.addEventListener("click", function () {
-        navbarTogglerNine.classList.toggle("active");
-    });
-
+    // Lógica para abrir/fechar o menu lateral esquerdo e overlay
     let sidebarLeft = document.querySelector(".sidebar-left");
     let overlayLeft = document.querySelector(".overlay-left");
     let sidebarClose = document.querySelector(".sidebar-close .close");
@@ -122,7 +95,6 @@
     });
 
     let sideMenuLeftNine = document.querySelector(".navbar-nine .menu-bar");
-
     sideMenuLeftNine.addEventListener("click", function () {
         sidebarLeft.classList.add("open");
         overlayLeft.classList.add("open");

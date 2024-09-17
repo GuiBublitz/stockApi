@@ -1,9 +1,135 @@
 <link rel="stylesheet" href="/main/home/home.css">
 <script src="/main/home/home.js"></script>
 
+<link href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
+
+
 <div class="container w100">
 
   <h1>Welcome</h1>
   <p>Hello, User <%= userId %>! You are logged in.</p>
   <a href="/logout">Logout</a>
+
+  <button type="button" data-bs-toggle="modal" data-bs-target="#adicionarAtivoModal" data-bs-whatever="@getbootstrap" id="adicionar-ativo-btn" style="font-size: 14px" class="btn btn-outline-light btn-cancel me-5 p-2 d-flex justify-content-center align-items-center gap-2">
+    <i class="lni lni-circle-plus fs-5 fw-bold" style="margin-top: -2px"></i>
+    Adicionar Ativo
+  </button>
+
+  <div class="modal fade" id="adicionarAtivoModal" tabindex="-1" aria-labelledby="adicionarAtivoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="adicionarAtivoModalLabel">Adicionar Transação</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <label for="tipo-ativo" class="col-form-label">Tipo de Ativo:</label>
+                <select id="tipo-ativo" class="form-select w100" aria-label="Default select example">
+                  <option selected value="0">Escolha um Tipo de Ativo</option>
+                  <% if (typeof ativos !=='undefined' ) { %>
+                  <% ativos.forEach(ativo=> { %>
+                  <option value="<%= ativo.id %>">
+                    <%= ativo.name %>
+                  </option>
+                  <% }) %>
+                  <% } %>
+                </select>
+              </div>
+
+              <!-- Campo de Ativo -->
+              <div class="col-md-12 mb-3">
+                <label for="ativo" class="col-form-label">Ativo:</label>
+                <select id="ativo" class="form-select w100" aria-label="Default select example">
+                  <option selected value="0">Escolha um Ativo</option>
+                  <% if (typeof ativos !=='undefined' ) { %>
+                  <% ativos.forEach(ativo=> { %>
+                  <option value="<%= ativo.id %>">
+                    <%= ativo.name %>
+                  </option>
+                  <% }) %>
+                  <% } %>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- Campo de Data da Compra -->
+              <div class="col-md-6 mb-3">
+                <label for="data-compra" class="col-form-label">Data da Compra:</label>
+                <input type="date" class="form-control" id="data-compra">
+              </div>
+
+              <!-- Campo de Quantidade -->
+              <div class="col-md-6 mb-3">
+                <label for="quantidade" class="col-form-label">Quantidade:</label>
+                <input type="number" class="form-control" id="quantidade" placeholder="Digite a quantidade">
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- Campo de Preço em R$ -->
+              <div class="col-md-6 mb-3">
+                <label for="preco" class="col-form-label">Preço em R$:</label>
+                <input type="text" class="form-control" id="preco" placeholder="Digite o preço em R$">
+              </div>
+
+              <!-- Campo de Outros Custos -->
+              <div class="col-md-6 mb-3">
+                <label for="outros-custos" class="col-form-label">Outros Custos:</label>
+                <input type="text" class="form-control" id="outros-custos" placeholder="Digite outros custos, se houver">
+              </div>
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-light btn-cancel p-2" data-bs-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-dark btn-confirm p-2">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inicialização do Choices.js e Cleave.js -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Inicializando Choices.js para o campo "Tipo de Ativo"
+      new Choices('#tipo-ativo', {
+        searchEnabled: true,
+        removeItemButton: true,
+        placeholderValue: 'Escolha um Tipo de Ativo'
+      });
+
+      // Inicializando Choices.js para o campo "Ativo"
+      new Choices('#ativo', {
+        searchEnabled: true,
+        removeItemButton: true,
+        placeholderValue: 'Escolha um Ativo'
+      });
+
+      // Aplicando máscara de dinheiro em R$ nos campos "Preço em R$" e "Outros Custos"
+      new Cleave('#preco', {
+        numeral: true,
+        numeralDecimalMark: ',',
+        delimiter: '.',
+        numeralDecimalScale: 2,
+        prefix: 'R$ ',
+        numeralThousandsGroupStyle: 'thousand'
+      });
+
+      new Cleave('#outros-custos', {
+        numeral: true,
+        numeralDecimalMark: ',',
+        delimiter: '.',
+        numeralDecimalScale: 2,
+        prefix: 'R$ ',
+        numeralThousandsGroupStyle: 'thousand'
+      });
+    });
+  </script>
 </div>

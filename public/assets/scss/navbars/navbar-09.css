@@ -1,3 +1,7 @@
+.select2-container{
+  z-index: 9999;
+}
+
 /*===========================
   NAVBAR css 
 ===========================*/
@@ -312,7 +316,13 @@
 .navbar-area.navbar-nine .navbar .navbar-btn {
   margin-top: 6px;
 }
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+@media (max-width: 767px) {
+  #adicionar-ativo-btn{
+    display: none !important;
+  }
+}
+/* @media only screen and (min-width: 768px) and (max-width: 991px) {
   .navbar-area.navbar-nine .navbar .navbar-btn {
     position: absolute;
     right: 70px;
@@ -325,7 +335,7 @@
     right: 60px;
     top: 7px;
   }
-}
+} */
 .navbar-area.navbar-nine .navbar .navbar-btn .menu-bar {
   font-size: 22px;
   position: relative;
