@@ -1,0 +1,150 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.css" integrity="sha512-ITS8GbPjCRA7c/PBl6Kqb9XjvQbKMBXpzEmpi7BgRwf6mUCySmHbF9opWfVUQvbdiYouDYxhxttWS+wyq4l+Ug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+  .container-404 *:not(i) {
+    font-family: sans-serif;
+  }
+
+  .container-404 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .mainbox {
+    margin: auto;
+    position: relative;
+  }
+
+  .err {
+    color: #232A2C;
+    font-size: 6rem;
+  }
+
+  .container-404 .fa {
+    font-size: 5.8rem;
+    color: #232A2C;
+    height: fit-content;
+  }
+
+  .err2 {
+    color: #232A2C;
+    font-size: 6rem;
+  }
+
+  .msg {
+    text-align: center;
+    font-size: 1.6rem;
+    position: absolute;
+    left: 16%;
+    top: 45%;
+    width: 75%;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  @import url('https://fonts.googleapis.com/css?family=Lato');
+
+  h1 {
+    margin: 40px 0 20px;
+  }
+
+  .lock {
+    border-radius: 5px;
+    width: 55px;
+    height: 45px;
+    background-color: #333;
+    animation: dip 0.9s;
+    animation-delay: (0.9s - .5);
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      border-left: 5px solid #333;
+      height: 25px;
+      width: 25px;
+      left: calc(50% - 13px);
+    }
+
+    &::before {
+      top: -30px;
+      border: 5px solid #333;
+      border-bottom-color: transparent;
+      border-radius: 15px 15px 0 0;
+      height: 40px;
+      animation: lock 0.9s, spin 0.9s;
+    }
+
+    &::after {
+      top: -10px;
+      border-right: 5px solid transparent;
+      animation: spin 0.9s;
+    }
+  }
+
+  @keyframes lock {
+    0% {
+      top: -45px;
+    }
+
+    65% {
+      top: -45px;
+    }
+
+    100% {
+      top: -30px;
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: scaleX(-1);
+      left: calc(50% - 30px);
+    }
+
+    65% {
+      transform: scaleX(1);
+      left: calc(50% - 12.5px);
+    }
+  }
+
+  @keyframes dip {
+    0% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(10px);
+    }
+
+    100% {
+      transform: translateY(0px);
+    }
+  }
+</style>
+<div class="message prevent-select" style="margin-top: 85px;">
+  <h1 style="color: #232A2C; text-align: center; font-family: sans-serif; font-weight: bold;">
+    <div class="container-404">
+      <div class="err">4</div>
+      <i class="fa fa-question-circle-o" aria-hidden="true"></i>
+      <div class="err2">4</div>
+    </div>
+    <span style="font-size: 34px; margin-top: 20px; display: block;">
+        Página não encontrada
+    </span>
+    
+  </h1>
+  <p style="
+           margin-top: 25px;
+           font-size: 18px;
+           text-align: center;
+       ">Essa página não existe ou não pode ser encontrada.</br></p>
+</div>

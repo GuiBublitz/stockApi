@@ -1,5 +1,20 @@
-.select2-container{
-  z-index: 9999;
+.navbar-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-left {
+  display: block; /* Garante que a barra lateral seja exibida corretamente */
+}
+
+.overlay-left {
+  display: none; /* Oculta o overlay inicialmente */
+}
+
+.sidebar-left.open,
+.overlay-left.open {
+  display: block; /* Exibe a barra lateral e overlay quando abertos */
 }
 
 /*===========================

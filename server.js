@@ -53,6 +53,10 @@ app.use((req, res, next) => {
 
 app.use('/', routes);
 
+app.use((req, res, next) => {
+  res.status(404).render('404', { title: 'Página Não Encontrada', showNav: true });
+});
+
 server.listen(5050, () => {
   logger.info(`Server running at http://localhost:5050`);
 });

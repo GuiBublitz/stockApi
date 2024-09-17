@@ -36,7 +36,7 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/register', (req, res) => {
-    res.render('register', { title: 'Register', showNav: false });
+    res.render('register', { title: 'Register', showNav: true });
 });
 
 router.post('/register', (req, res) => {

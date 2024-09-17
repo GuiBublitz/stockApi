@@ -1,37 +1,14 @@
 <link rel="stylesheet" href="../assets/scss/navbars/navbar-09.css" />
-<style>
-    .navbar-area {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.sidebar-left {
-    display: block; /* Garante que a barra lateral seja exibida corretamente */
-}
-
-.overlay-left {
-    display: none; /* Oculta o overlay inicialmente */
-}
-
-.sidebar-left.open,
-.overlay-left.open {
-    display: block; /* Exibe a barra lateral e overlay quando abertos */
-}
-
-</style>
 
 <section class="navbar-area navbar-nine bg-dark p-1">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <!-- Remover o botão navbar-toggler e as classes relacionadas a colapso -->
                 <nav class="navbar navbar-expand-lg">
-                    <span class="me-auto">
+                    <span class="me-auto p-1">
                         <%- include('logo', {customClass: 'text-white' }) %>
                     </span>
 
-                    <!-- Adicionar Ativo, exibido apenas na página Home -->
                     <% if (title === 'Home') { %>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#adicionarAtivoModal"
                             data-bs-whatever="@getbootstrap" id="adicionar-ativo-btn" style="font-size: 14px"
@@ -41,10 +18,11 @@
                         </button>
                     <% } %>
 
-                    <!-- Menu lateral esquerdo -->
-                    <div class="navbar-btn d-lg-inline-block">
-                        <a class="menu-bar" href="#side-menu-left"><i class="lni lni-menu"></i></a>
-                    </div>
+                    <% if (title !== 'Register') { %>
+                        <div class="navbar-btn d-lg-inline-block">
+                            <a class="menu-bar" href="#side-menu-left"><i class="lni lni-menu"></i></a>
+                        </div>
+                    <% } %>
                 </nav>
             </div>
         </div>
@@ -80,7 +58,6 @@
 <div class="overlay-left"></div>
 
 <script>
-    // Lógica para abrir/fechar o menu lateral esquerdo e overlay
     let sidebarLeft = document.querySelector(".sidebar-left");
     let overlayLeft = document.querySelector(".overlay-left");
     let sidebarClose = document.querySelector(".sidebar-close .close");
