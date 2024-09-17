@@ -84,7 +84,9 @@
                 <input type="text" class="form-control" id="outros-custos" placeholder="Digite outros custos, se houver">
               </div>
             </div>
-
+            <div>
+              Valor Total: 
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -94,42 +96,4 @@
       </div>
     </div>
   </div>
-
-  <!-- Inicialização do Choices.js e Cleave.js -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Inicializando Choices.js para o campo "Tipo de Ativo"
-      new Choices('#tipo-ativo', {
-        searchEnabled: true,
-        removeItemButton: true,
-        placeholderValue: 'Escolha um Tipo de Ativo'
-      });
-
-      // Inicializando Choices.js para o campo "Ativo"
-      new Choices('#ativo', {
-        searchEnabled: true,
-        removeItemButton: true,
-        placeholderValue: 'Escolha um Ativo'
-      });
-
-      // Aplicando máscara de dinheiro em R$ nos campos "Preço em R$" e "Outros Custos"
-      new Cleave('#preco', {
-        numeral: true,
-        numeralDecimalMark: ',',
-        delimiter: '.',
-        numeralDecimalScale: 2,
-        prefix: 'R$ ',
-        numeralThousandsGroupStyle: 'thousand'
-      });
-
-      new Cleave('#outros-custos', {
-        numeral: true,
-        numeralDecimalMark: ',',
-        delimiter: '.',
-        numeralDecimalScale: 2,
-        prefix: 'R$ ',
-        numeralThousandsGroupStyle: 'thousand'
-      });
-    });
-  </script>
 </div>

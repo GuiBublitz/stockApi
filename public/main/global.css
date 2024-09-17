@@ -1,0 +1,27 @@
+.btn-cancel,
+.btn-confirm {
+    font-size: 14px;
+}
+.btn-cancel {
+    color: rgba(145,145,145);
+    background-color: rgba(245,245,245);
+}
+.btn-cancel:hover {
+    color: rgba(100,100,100);
+    background-color: rgba(215,215,215);
+}
+.btn-confirm:hover{
+    color: rgba(255,255,255);
+    background-color: rgb(58, 62, 66);
+}
+.btn-outline-dark:hover{
+    background-color: rgba(229,229,229);
+    color: rgb(63, 67, 71);
+}
+button.primary-btn {
+    background-color: rgb(33, 37, 41) !important;
+} 
+button.primary-btn:hover {
+    background-color: rgb(43, 47, 51) !important;
+    color:rgba(189,189,189) !important;
+}

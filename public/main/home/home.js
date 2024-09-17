@@ -1,5 +1,31 @@
 document.addEventListener("DOMContentLoaded", (event) => {
-    let adicionarAtivoBtn = document.getElementById('adicionar-ativo-btn');
+    new Choices('#tipo-ativo', {
+        searchEnabled: true,
+        removeItemButton: true,
+        placeholderValue: 'Escolha um Tipo de Ativo'
+    });
 
-    console.log(adicionarAtivoBtn); 
+    new Choices('#ativo', {
+        searchEnabled: true,
+        removeItemButton: true,
+        placeholderValue: 'Escolha um Ativo'
+    });
+
+    new Cleave('#preco', {
+        numeral: true,
+        numeralDecimalMark: ',',
+        delimiter: '.',
+        numeralDecimalScale: 2,
+        prefix: 'R$ ',
+        numeralThousandsGroupStyle: 'thousand'
+    });
+
+    new Cleave('#outros-custos', {
+        numeral: true,
+        numeralDecimalMark: ',',
+        delimiter: '.',
+        numeralDecimalScale: 2,
+        prefix: 'R$ ',
+        numeralThousandsGroupStyle: 'thousand'
+    });
 });
