@@ -21,7 +21,11 @@ const sessionMiddleware = session({
   secret: process.env.SECRETE_KEY,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: process.env.HTTPS_ONLY === 'true' }
+  cookie: { 
+    secure: process.env.HTTPS_ONLY === 'true',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+  }
 });
 
 app.use(sessionMiddleware);

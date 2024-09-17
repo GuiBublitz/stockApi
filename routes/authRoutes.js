@@ -14,8 +14,8 @@ router.post('/login', (req, res) => {
 
     getUserByUsername(username, (err, user) => {
         if (err || !user) {
-            logger.withUser('Guest').error(`Invalid login attempt for username: ${username}`);
-            return res.status(400).send('Invalid username or password');
+            logger.withUser('Guest').error(`Tentativa de login inválida para o nome de usuário: ${username}`);
+            return res.render('login', { title: 'Login', showNav: false,  username: username, error: 'Senha ou usuário incorretos. Tente novamente.' });
         }
 
         bcrypt.compare(password, user.password, (err, result) => {
@@ -25,11 +25,11 @@ router.post('/login', (req, res) => {
                 req.session.email = user.email;
                 req.session.username = user.username;
 
-                logger.withUser(username).info(`User ${username} logged in successfully`);
+                logger.withUser(username).info(`Usuário ${username} logado com sucesso.`);
                 return res.redirect('/');
             } else {
-                logger.withUser(username).error('Invalid password for username: ' + username);
-                return res.status(400).send('Invalid username or password');
+                logger.withUser(username).error('Senha inválida para o nome de usuário: ' + username);
+                return res.render('login', { title: 'Login', showNav: false,  username: username, error: 'Senha ou usuário incorretos. Tente novamente.' });
             }
         });
     });

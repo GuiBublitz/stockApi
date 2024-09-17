@@ -1,9 +1,10 @@
 <link rel="stylesheet" href="../assets/scss/sign-in-up/sign-in-up-01.css" />
+<script src="/main/login/login.js"></script>
 
-<section class="signin-area signin-one" style="min-height: 100dvh;">
+<section class="signin-area signin-one" style="height: 100dvh;">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-5">
+      <div class="col-lg-5">        
         <form method="POST" action="/login">
           <div class="signin-form form-style-two rounded-buttons">
             <div class="d-flex justify-content-start align-items-center">
@@ -11,42 +12,69 @@
             </div>
             
             <div class="row">
+              <!-- Nome de Usuário -->
               <div class="col-md-12">
                 <div class="form-input">
                   <label>Nome de usuário</label>
-                  <div class="input-items default">
-                    <input type="text" name="username" placeholder="Nome de usuário" required />
+                  <div class="input-items default <%= typeof error !== 'undefined' ? 'error' : '' %>">
+                    <input
+                      id="username-input"
+                      type="text" 
+                      name="username" 
+                      placeholder="Nome de usuário" 
+                      required 
+                      oninput="removeErrorUi()"
+                      value="<%= typeof username !== 'undefined' ? username : '' %>"
+                    />
                     <i class="lni lni-envelope"></i>
                   </div>
                 </div>
-                <!-- form input -->
               </div>
+              <!-- Senha -->
               <div class="col-md-12 mb-2">
                 <div class="form-input">
-                  <label>Senha</label>
-                  <div class="input-items default">
-                    <input type="password" name="password" placeholder="Senha" required />
+                  <label >Senha</label>
+                  <div class="input-items default <%= typeof error !== 'undefined' ? 'error' : '' %>">
+                    <input 
+                      id="password-input"
+                      type="password" 
+                      name="password" 
+                      placeholder="Senha" 
+                      required 
+                      oninput="removeErrorUi()"
+                    />
                     <i class="lni lni-key"></i>
                   </div>
                 </div>
-                <!-- form input -->
               </div>
+
+              <!-- Alerta de Erro Geral -->
+              <% if (typeof error !== 'undefined') { %>
+                <div id="error-message" class="ayro-alert mt-4 mb-2 ayro-alert-danger d-flex align-items-center" role="alert">
+                  <i class="lni lni-warning text-danger me-2"></i>
+                  <div class="error-text" style="color: var(--error);">
+                    <%= error %>
+                  </div>
+                </div>
+              <% } %>
+
+              <!-- Botões -->
               <div class="col-md-6">
                 <div class="form-input rounded-buttons">
                   <button class="btn primary-btn" type="submit">
                     Entrar!
                   </button>
                 </div>
-                <!-- form input -->
               </div>
+
               <div class="col-md-6">
                 <div class="form-input rounded-buttons">
                   <a href="/register" class="btn btn-outline-dark border border-1 w-100">
                     Cadastre-se
                   </a>
                 </div>
-                <!-- form input -->
               </div>
+
               <div class="col-md-12">
                 <div class="form-input text-center">
                   <p class="text">
@@ -55,16 +83,11 @@
                     <a href="javascript:void(0)">Política de Privacidade</a>
                   </p>
                 </div>
-                <!-- form input -->
               </div>
             </div>
           </div>
-          <!-- signin form -->
         </form>
       </div>
     </div>
-    <!-- row -->
   </div>
-  <!-- container -->
 </section>
-<!--====== SIGNIN ONE PART ENDS ======-->

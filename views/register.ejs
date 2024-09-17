@@ -8,21 +8,17 @@
       <div class="row">
         <div class="col-xl-7 col-lg-8">
           <div class="section-title mt-45">
-            <h3 class="title">Register your account</h3>
+            <h3 class="title">Registre sua conta</h3>
           </div>
           <div class="contact-form form-style-four mt-15">
-            <form method="POST" action="/register">
+            <form method="POST" action="/register" id="registerForm">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-input mt-15">
-                    <label>Name</label>
+                    <label>Nome</label>
                     <div class="input-items default">
                       <i class="lni lni-user"></i>
-                      <input
-                        type="text"
-                        name="name"
-                        required
-                      />
+                      <input type="text" name="name" required />
                     </div>
                   </div>
                 </div>
@@ -31,59 +27,67 @@
                     <label>Email</label>
                     <div class="input-items default">
                       <i class="lni lni-envelope"></i>
-                      <input
-                        type="email"
-                        name="email"
-                        required
-                      />
+                      <input type="email" name="email" required />
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-input mt-15">
-                    <label>Username</label>
+                    <label>Nome de Usuário</label>
                     <div class="input-items default">
                       <i class="lni lni-user"></i>
-                      <input
-                        type="text"
-                        name="username"
-                        required
-                      />
+                      <input type="text" name="username" required />
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-input mt-15">
-                    <label>Password</label>
-                    <div class="input-items default">
-                      <i class="lni lni-key"></i>
-                      <input
-                        type="password"
-                        name="password"
-                        required
-                      />
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-input mt-15">
+                      <label>Senha <span id="password-strength-text" style="color: green; font-size: 0.9rem;"></span></label>
+                      <div class="input-items default">
+                        <i class="lni lni-key"></i>
+                        <input
+                          type="password"
+                          name="password"
+                          id="password"
+                          required
+                        />
+                      </div>
+                      <!-- Indicador de força da senha -->
+                      <small id="passwordStrength" class="text-muted"></small>
+                    </div>
+                  </div>
+
+                  <!-- Campo Confirmar Senha -->
+                  <div class="col-md-6">
+                    <div class="form-input mt-15">
+                      <label>Confirmar Senha</label>
+                      <div class="input-items default">
+                        <i class="lni lni-key"></i>
+                        <input
+                          type="password"
+                          name="confirm_password"
+                          id="confirm_password"
+                          required
+                        />
+                      </div>
+                      <small id="passwordMatch" class="text-muted"></small>
                     </div>
                   </div>
                 </div>
+                
+
                 <div class="col-md-12">
                   <div class="single-form mt-5">
                     <div class="input-form rounded-buttons">
-                      <button
-                        class="btn primary-btn"
-                        type="submit"
-                      >
-                        Register
-                      </button>
+                      <button class="btn primary-btn" type="submit">Registrar</button>
                     </div>
                   </div>
                   <!-- single form -->
                 </div>
                 <div class="col-md-12">
                   <div class="form-input text-center mt-15">
-                    <p class="text">
-                      Already have an account?
-                      <a href="/login">Login here</a>
-                    </p>
+                    <p class="text">Já tem uma conta? <a href="/login">Entre aqui</a></p>
                   </div>
                 </div>
               </div>
@@ -92,13 +96,13 @@
         </div>
         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8 offset-xl-1">
           <div class="list-style mt-5">
-            <h4 class="list-title">System Features</h4>
+            <h4 class="list-title">Recursos do Sistema</h4>
             <div class="list-style-two">
               <ul>
                 <li><i class="lni lni-check-box"></i> Somos os melhores</li>
-                <li><i class="lni lni-check-box"></i> Somos os melhores</li>
-                <li><i class="lni lni-check-box"></i> Somos os melhores</li>
-                <li><i class="lni lni-check-box"></i> Somos os melhores</li>
+                <li><i class="lni lni-check-box"></i> Garantimos segurança</li>
+                <li><i class="lni lni-check-box"></i> Plataforma fácil de usar</li>
+                <li><i class="lni lni-check-box"></i> Suporte dedicado</li>
               </ul>
             </div>
           </div>
@@ -108,3 +112,60 @@
     </div>
   </section>
 </div>
+<script>
+  function checkPasswordStrength(password) {
+      let strength = 0;
+
+      if (password.length >= 8) strength++;
+
+      if (/[A-Z]/.test(password)) strength++;
+
+      if (/\d/.test(password)) strength++;
+
+      if (/[@$!%*?&#]/.test(password)) strength++;
+
+      return strength;
+  }
+
+  function updatePasswordStrengthMessage(strength) {
+      const messages = [
+          { text: 'Força: Muito Fraca', color: 'red' },
+          { text: 'Força: Fraca', color: 'orange' },
+          { text: 'Força: Média', color: 'yellow' },
+          { text: 'Força: Boa', color: 'lightgreen' },
+          { text: 'Força: Forte', color: 'green' }
+      ];
+
+      passwordStrength.textContent = messages[strength].text;
+      passwordStrength.style.color = messages[strength].color;
+  }
+
+  function checkPasswordMatch(password, confirmPassword) {
+      if (confirmPassword !== password) {
+          confirmPasswordField.setCustomValidity('As senhas não coincidem.');
+          passwordMatchText.textContent = 'As senhas não coincidem.';
+          passwordMatchText.style.color = 'red';
+      } else {
+          confirmPasswordField.setCustomValidity('');
+          passwordMatchText.textContent = '';
+          passwordMatchText.style.color = 'green';
+      }
+  }
+
+  const passwordField = document.getElementById('password');
+  const passwordStrength = document.getElementById('passwordStrength');
+  const passwordMatchText = document.getElementById('passwordMatch');
+  const confirmPasswordField = document.getElementById('confirm_password');
+
+  passwordField.addEventListener('input', function () {
+      const password = passwordField.value;
+      const strength = checkPasswordStrength(password);
+      updatePasswordStrengthMessage(strength);
+  });
+
+  document.getElementById('registerForm').addEventListener('input', function () {
+      const password = passwordField.value;
+      const confirmPassword = confirmPasswordField.value;
+      checkPasswordMatch(password, confirmPassword);
+  });
+</script>
