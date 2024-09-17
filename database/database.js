@@ -5,6 +5,15 @@ dbsetup();
 
 const db = new sqlite3.Database('./database.db');
 
+function getAtivos(callback) {
+  db.all('SELECT * FROM tipo_de_ativos', [], (err, rows) => {
+    if (err) {
+      return callback(err);
+    }
+    callback(null, rows);
+  });
+}
+
 function getAllUsers(callback) {
   const query = `SELECT id, username, isAdmin FROM users`;
   db.all(query, [], (err, rows) => {
@@ -55,4 +64,5 @@ module.exports = {
   getUserByUsername,
   closeDatabase,
   getAllUsers,
+  getAtivos,
 };

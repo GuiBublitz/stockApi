@@ -1,0 +1,19 @@
+.modal button {
+
+}
+.modal-footer > .btn-cancel,
+.modal-footer > .btn-confirm {
+    font-size: 14px;
+}
+.modal-footer > .btn-cancel {
+    color: rgba(145,145,145);
+    background-color: rgba(245,245,245);
+}
+.modal-footer > .btn-cancel:hover {
+    color: rgba(100,100,100);
+    background-color: rgba(215,215,215);
+}
+.modal-footer > .btn-confirm:hover{
+    color: rgba(255,255,255);
+    background-color: rgb(58, 62, 66);
+}
