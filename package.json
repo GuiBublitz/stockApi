@@ -19,7 +19,6 @@
     "express": "^4.19.2",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.0",
-    "ipinfo": "^1.5.1",
     "nodemon": "^3.1.4",
     "puppeteer": "^23.1.1",
     "socket.io": "^4.7.5",
