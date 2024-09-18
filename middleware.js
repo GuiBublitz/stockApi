@@ -15,6 +15,18 @@ const loginLimiter = rateLimit({
   }
 });
 
+const registerLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  handler: (req, res) => {
+    return res.status(429).render('register', {
+      errors: [{ msg: 'Muitas tentativas de registro. Tente novamente mais tarde.' }],
+      title: 'Register',
+      showNav: true
+  });
+  }
+});
+
 function validateUserKey(req, res, next) {
     const userKey = req.query.key;
     const validUserKey = "Bruno.Baehr";
@@ -41,4 +53,4 @@ function checkAdmin(req, res, next) {
     }
   }
 
-module.exports = { validateUserKey, validateLogin, checkAdmin, loginLimiter };
+module.exports = { validateUserKey, validateLogin, checkAdmin, loginLimiter, registerLimiter };

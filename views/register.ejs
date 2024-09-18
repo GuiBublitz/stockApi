@@ -1,8 +1,10 @@
-<link rel="stylesheet" href="../assets/scss/contact/contact-01.css" />
-<link rel="stylesheet" href="assets/scss/list-style/list-style.css" />
+<link rel="stylesheet" href="/assets/scss/contact/contact-01.css" />
+<link rel="stylesheet" href="/assets/scss/list-style/list-style.css" />
+<script src="/main/register/register.js"></script>
+
 
 <!--====== REGISTER FORM PART START ======-->
-<div class="container">
+<div class="container mb-5">
   <section class="contact-area pb-0">
     <div class="container">
       <div class="row">
@@ -10,6 +12,16 @@
           <div class="section-title mt-45">
             <h3 class="title">Registre sua conta</h3>
           </div>
+          <!-- Exibição de erros se houver -->
+          <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+            <div class="alert alert-danger">
+              <ul>
+                <% errors.forEach(function(error) { %>
+                  <li><%= error.msg %></li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
           <div class="contact-form form-style-four mt-15">
             <form method="POST" action="/register" id="registerForm">
               <div class="row">
@@ -18,7 +30,7 @@
                     <label>Nome</label>
                     <div class="input-items default">
                       <i class="lni lni-user"></i>
-                      <input type="text" name="name" required />
+                      <input type="text" name="name" value="<%= typeof name !== 'undefined' ? name : '' %>" required />
                     </div>
                   </div>
                 </div>
@@ -27,7 +39,7 @@
                     <label>Email</label>
                     <div class="input-items default">
                       <i class="lni lni-envelope"></i>
-                      <input type="email" name="email" required />
+                      <input type="email" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" required />
                     </div>
                   </div>
                 </div>
@@ -36,7 +48,7 @@
                     <label>Nome de Usuário</label>
                     <div class="input-items default">
                       <i class="lni lni-user"></i>
-                      <input type="text" name="username" required />
+                      <input type="text" name="username" value="<%= typeof username !== 'undefined' ? username : '' %>" required />
                     </div>
                   </div>
                 </div>
@@ -46,12 +58,7 @@
                       <label>Senha <span id="password-strength-text" style="color: green; font-size: 0.9rem;"></span></label>
                       <div class="input-items default">
                         <i class="lni lni-key"></i>
-                        <input
-                          type="password"
-                          name="password"
-                          id="password"
-                          required
-                        />
+                        <input type="password" name="password" id="password" required />
                       </div>
                       <!-- Indicador de força da senha -->
                       <small id="passwordStrength" class="text-muted"></small>
@@ -64,18 +71,12 @@
                       <label>Confirmar Senha</label>
                       <div class="input-items default">
                         <i class="lni lni-key"></i>
-                        <input
-                          type="password"
-                          name="confirm_password"
-                          id="confirm_password"
-                          required
-                        />
+                        <input type="password" name="confirm_password" id="confirm_password" required />
                       </div>
                       <small id="passwordMatch" class="text-muted"></small>
                     </div>
                   </div>
                 </div>
-                
 
                 <div class="col-md-12">
                   <div class="single-form mt-5">
@@ -83,7 +84,6 @@
                       <button class="btn primary-btn" type="submit">Registrar</button>
                     </div>
                   </div>
-                  <!-- single form -->
                 </div>
                 <div class="col-md-12">
                   <div class="form-input text-center mt-15">
@@ -106,66 +106,8 @@
               </ul>
             </div>
           </div>
-          <!-- list-style-two -->
         </div>
       </div>
     </div>
   </section>
 </div>
-<script>
-  function checkPasswordStrength(password) {
-      let strength = 0;
-
-      if (password.length >= 8) strength++;
-
-      if (/[A-Z]/.test(password)) strength++;
-
-      if (/\d/.test(password)) strength++;
-
-      if (/[@$!%*?&#]/.test(password)) strength++;
-
-      return strength;
-  }
-
-  function updatePasswordStrengthMessage(strength) {
-      const messages = [
-          { text: 'Força: Muito Fraca', color: 'red' },
-          { text: 'Força: Fraca', color: 'orange' },
-          { text: 'Força: Média', color: 'yellow' },
-          { text: 'Força: Boa', color: 'lightgreen' },
-          { text: 'Força: Forte', color: 'green' }
-      ];
-
-      passwordStrength.textContent = messages[strength].text;
-      passwordStrength.style.color = messages[strength].color;
-  }
-
-  function checkPasswordMatch(password, confirmPassword) {
-      if (confirmPassword !== password) {
-          confirmPasswordField.setCustomValidity('As senhas não coincidem.');
-          passwordMatchText.textContent = 'As senhas não coincidem.';
-          passwordMatchText.style.color = 'red';
-      } else {
-          confirmPasswordField.setCustomValidity('');
-          passwordMatchText.textContent = '';
-          passwordMatchText.style.color = 'green';
-      }
-  }
-
-  const passwordField = document.getElementById('password');
-  const passwordStrength = document.getElementById('passwordStrength');
-  const passwordMatchText = document.getElementById('passwordMatch');
-  const confirmPasswordField = document.getElementById('confirm_password');
-
-  passwordField.addEventListener('input', function () {
-      const password = passwordField.value;
-      const strength = checkPasswordStrength(password);
-      updatePasswordStrengthMessage(strength);
-  });
-
-  document.getElementById('registerForm').addEventListener('input', function () {
-      const password = passwordField.value;
-      const confirmPassword = confirmPasswordField.value;
-      checkPasswordMatch(password, confirmPassword);
-  });
-</script>

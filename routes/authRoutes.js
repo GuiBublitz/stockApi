@@ -2,7 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const { getUserByUsername, addUser } = require('../database/database');
 const logger = require('../logger');
-const { loginLimiter } = require('../middleware');
+const { loginLimiter, registerLimiter } = require('../middleware');
+const { body, validationResult } = require('express-validator');
 
 const router = express.Router();
 
@@ -40,26 +41,67 @@ router.get('/register', (req, res) => {
     res.render('register', { title: 'Register', showNav: true });
 });
 
-router.post('/register', (req, res) => {
+router.post('/register', [
+    registerLimiter,
+    body('username').isLength({ min: 3 }).trim().escape().withMessage('O nome de usuário deve ter pelo menos 3 caracteres'),
+    body('password').isLength({ min: 8 }).trim().withMessage('A senha deve ter no mínimo 8 caracteres'),
+    body('email').isEmail().normalizeEmail().withMessage('Por favor, insira um e-mail válido'),
+    body('name').isLength({ min: 2 }).trim().escape().withMessage('O nome deve ter pelo menos 2 caracteres')
+], (req, res) => {
+    const errors = validationResult(req);
     const { username, password, name, email } = req.body;
 
-    bcrypt.hash(password, 10, (err, hashedPassword) => {
+    if (!errors.isEmpty()) {
+        return res.status(400).render('register', { 
+            errors: errors.array(), 
+            username, 
+            email, 
+            name,
+            title: 'Register', 
+            showNav: true
+        });
+    }
+
+    const saltRounds = 12;
+
+    bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
         if (err) {
             logger.withUser('Guest').error('Error hashing password: ' + err.message);
-            return res.status(500).send('Internal server error');
+            return res.status(500).render('register', {
+                errors: [{ msg: 'Erro ao processar o registro. Por favor, tente novamente.' }],
+                username, 
+                email, 
+                name,
+                title: 'Register', 
+                showNav: true
+            });
         }
 
         addUser(username, name, email, hashedPassword, (err, userId) => {
             if (err) {
                 if (err.code === 'SQLITE_CONSTRAINT') {
-                    logger.withUser('Guest').warn(`Attempt to register with existing username: ${username}`);
-                    return res.status(400).send('Username already exists');
+                    logger.withUser('Guest').warn(`Tentativa de registro com nome de usuário já existente: ${username}`);
+                    return res.status(400).render('register', {
+                        errors: [{ msg: 'Nome de usuário já existe' }],
+                        username, 
+                        email, 
+                        name,
+                        title: 'Register', 
+                        showNav: true
+                    });
                 }
-                logger.withUser('Guest').error('Error adding user: ' + err.message);
-                return res.status(500).send('Internal server error');
+                logger.withUser('Guest').error('Erro ao adicionar usuário: ' + err.message);
+                return res.status(500).render('register', {
+                    errors: [{ msg: 'Erro no servidor. Tente novamente mais tarde.' }],
+                    username, 
+                    email, 
+                    name,
+                    title: 'Register', 
+                    showNav: true
+                });
             }
 
-            logger.withUser(username).info(`New user registered: ${username}`);
+            logger.withUser(username).info(`Novo usuário registrado: ${username}`);
             return res.redirect('/login');
         });
     });
