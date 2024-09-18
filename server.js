@@ -10,7 +10,8 @@ const socketIo          = require('socket.io');
 const routes            = require('./routes/index');
 const socketHandler     = require('./socketHandler');
 const { closeDatabase } = require('./database/database');
-const cookieParser = require('cookie-parser');
+const cookieParser      = require('cookie-parser');
+const helmet            = require('helmet');
 
 const app    = express();
 const server = http.createServer(app);
@@ -18,7 +19,9 @@ const io     = socketIo(server);
 
 logger.setIo(io);
 
+app.use(helmet());
 app.use(cookieParser());
+
 const sessionMiddleware = session({
   secret: process.env.SECRETE_KEY,
   resave: false,
@@ -26,7 +29,8 @@ const sessionMiddleware = session({
   cookie: { 
     secure: process.env.HTTPS_ONLY === 'true',
     httpOnly: true,
-    maxAge: 120 * 60 * 1000 
+    sameSite: 'Strict',
+    maxAge: 24 * 60 * 60 * 1000
   }
 });
 

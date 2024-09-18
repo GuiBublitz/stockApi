@@ -3,7 +3,9 @@ const rateLimit = require('express-rate-limit');
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
-  message: 'Muitas tentativas de login. Tente novamente após 15 minutos.'
+  handler: (req, res) => {
+    res.status(429).render('login', {title: 'Login', showNav: false, error: 'Muitas tentativas de login. Tente novamente mais tarde.'});
+  }
 });
 
 

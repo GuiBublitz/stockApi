@@ -8,17 +8,18 @@
         <%= title %>
     </title>
 
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../assets/css/lineicons.css" />
-    <link rel="stylesheet" href="../assets/css/starter.css" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/css/lineicons.css" />
+    <link rel="stylesheet" href="/assets/css/starter.css" />
     <link rel="stylesheet" href="/main/global.css" />
-    
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/assets/scss/navbars/navbar-09.css" />
+
+    <script src="/main/nav/nav.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
     
-
     <% if (typeof showNav !== 'undefined' && showNav == true) { %>
         <%- include('partials/nav') %>
     <% } %>
