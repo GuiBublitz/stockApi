@@ -10,6 +10,7 @@ const socketIo          = require('socket.io');
 const routes            = require('./routes/index');
 const socketHandler     = require('./socketHandler');
 const { closeDatabase } = require('./database/database');
+const ipinfo = require('ipinfo');
 
 const app    = express();
 const server = http.createServer(app);
@@ -46,11 +47,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
   const username = req.session.userId ? `${req.session.username}` : 'Guest';
-  const log = logger.withUser(username);
-  log.info(`${req.method} ${req.url}`);
-  next();
-});
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  
+  ipinfo(ip, (err, cLoc) => {
+    if (err) {
+      console.error('Erro ao obter informações de localização:', err.message);
+    } else {
+      const city = cLoc.city || 'Cidade desconhecida';
+      const userAgent = req.headers['user-agent'];
+      const host = req.headers.host;
 
+      const log = logger.withUser(username);
+      log.info(`${req.method} ${req.url} - IP: ${ip} - Cidade: ${city} - User Agent: ${userAgent} - Host: ${host}`);
+    }
+
+    next();
+  });
+});
 app.use('/', routes);
 
 app.use((req, res, next) => {

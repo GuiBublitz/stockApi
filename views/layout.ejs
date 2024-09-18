@@ -17,9 +17,13 @@
 </head>
 
 <body>
+    
+
     <% if (typeof showNav !== 'undefined' && showNav == true) { %>
         <%- include('partials/nav') %>
     <% } %>
+
+    <%- include('loading') %>
 
     <%- body %>
 
