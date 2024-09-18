@@ -3,11 +3,17 @@ const rateLimit = require('express-rate-limit');
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
+  keyGenerator: (req) => {
+    return req.body.username || req.ip;
+  },
   handler: (req, res) => {
-    res.status(429).render('login', {title: 'Login', showNav: false, error: 'Muitas tentativas de login. Tente novamente mais tarde.'});
+    res.status(429).render('login', { 
+      title: 'Login', 
+      showNav: false, 
+      error: 'Muitas tentativas de login. Tente novamente mais tarde.' 
+    });
   }
 });
-
 
 function validateUserKey(req, res, next) {
     const userKey = req.query.key;
