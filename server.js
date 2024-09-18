@@ -24,7 +24,7 @@ const sessionMiddleware = session({
   cookie: { 
     secure: process.env.HTTPS_ONLY === 'true',
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000,
+    maxAge: 120 * 60 * 1000 
   }
 });
 

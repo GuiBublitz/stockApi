@@ -1,3 +1,12 @@
+const rateLimit = require('express-rate-limit');
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: 'Muitas tentativas de login. Tente novamente após 15 minutos.'
+});
+
+
 function validateUserKey(req, res, next) {
     const userKey = req.query.key;
     const validUserKey = "Bruno.Baehr";
@@ -24,4 +33,4 @@ function checkAdmin(req, res, next) {
     }
   }
 
-module.exports = { validateUserKey, validateLogin, checkAdmin };
+module.exports = { validateUserKey, validateLogin, checkAdmin, loginLimiter };

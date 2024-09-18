@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const { getUserByUsername, addUser } = require('../database/database');
 const logger = require('../logger');
+const { loginLimiter } = require('../middleware');
 
 const router = express.Router();
 
@@ -9,7 +10,7 @@ router.get('/login', (req, res) => {
     res.render('login', { title: 'Login', showNav: false });
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', loginLimiter, (req, res) => {
     const { username, password } = req.body;
 
     getUserByUsername(username, (err, user) => {
