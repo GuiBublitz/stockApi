@@ -10,6 +10,7 @@ const socketIo          = require('socket.io');
 const routes            = require('./routes/index');
 const socketHandler     = require('./socketHandler');
 const { closeDatabase } = require('./database/database');
+const cookieParser = require('cookie-parser');
 
 const app    = express();
 const server = http.createServer(app);
@@ -17,6 +18,7 @@ const io     = socketIo(server);
 
 logger.setIo(io);
 
+app.use(cookieParser());
 const sessionMiddleware = session({
   secret: process.env.SECRETE_KEY,
   resave: false,
@@ -49,12 +51,8 @@ app.use((req, res, next) => {
 
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
-  const userAgent = req.headers['user-agent'];
-
-  const host = req.headers.host;
-
   const log = logger.withUser(username);
-  log.info(`${req.method} ${req.url} - IP: ${ip} - User Agent: ${userAgent} - Host: ${host}`);
+  log.info(`${req.method} ${req.url} - IP: ${ip}`);
 
   next();
 });
