@@ -7,8 +7,7 @@ const { loginLimiter } = require('../middleware');
 const router = express.Router();
 
 router.get('/login', (req, res) => {
-    console.log('CSRF Token:', req.csrfToken());
-    res.render('login', { title: 'Login', showNav: false, csrfToken: req.csrfToken() });
+    res.render('login', { title: 'Login', showNav: false });
 });
 
 router.post('/login', loginLimiter, (req, res) => {
