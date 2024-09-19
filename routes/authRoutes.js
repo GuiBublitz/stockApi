@@ -45,7 +45,7 @@ router.post('/register', [
     registerLimiter,
     body('username').isLength({ min: 3 }).trim().escape().withMessage('O nome de usuário deve ter pelo menos 3 caracteres'),
     body('password').isLength({ min: 8 }).trim().withMessage('A senha deve ter no mínimo 8 caracteres'),
-    body('email').isEmail().normalizeEmail().withMessage('Por favor, insira um e-mail válido'),
+    body('email').isEmail().withMessage('Por favor, insira um e-mail válido'),
     body('name').isLength({ min: 2 }).trim().escape().withMessage('O nome deve ter pelo menos 2 caracteres')
 ], (req, res) => {
     const errors = validationResult(req);

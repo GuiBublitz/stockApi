@@ -19,6 +19,7 @@ const io     = socketIo(server);
 
 logger.setIo(io);
 
+app.set('trust proxy', true); 
 app.use(helmet());
 app.use(cookieParser());
 
