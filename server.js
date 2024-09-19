@@ -16,13 +16,6 @@ const helmet            = require('helmet');
 const app    = express();
 const server = http.createServer(app);
 const io     = socketIo(server);
-
-logger.setIo(io);
-
-app.set('trust proxy', true); 
-app.use(helmet());
-app.use(cookieParser());
-
 const sessionMiddleware = session({
   secret: process.env.SECRETE_KEY,
   resave: false,
@@ -35,28 +28,29 @@ const sessionMiddleware = session({
   }
 });
 
-app.use(sessionMiddleware);
-
 io.use((socket, next) => {
   sessionMiddleware(socket.request, {}, next);
 });
-
 socketHandler(io);
+logger.setIo(io);
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.use(helmet());
+app.use(cookieParser());
+app.use(sessionMiddleware);
 app.use(expressLayouts);
-app.set('layout', 'layout');
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.set('trust proxy', true);
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.set('layout', 'layout');
+
 app.use((req, res, next) => {
   const username = req.session.userId ? `${req.session.username}` : 'Guest';
+  const ip       = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const log      = logger.withUser(username);
 
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-
-  const log = logger.withUser(username);
   log.info(`${req.method} ${req.url} - IP: ${ip}`);
 
   next();
